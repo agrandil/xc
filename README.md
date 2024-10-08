@@ -65,6 +65,18 @@ Where secretphrase is 24 words secret phrase for your wallet private key or priv
 
 Be sure you have some SUI in your wallet for the gas, 1 SUI is enough for submiting many hashes.
 
+#### Merge META or FOMO coins
+
+If you own too many META or FOMO coins, it may cause troubles using exchanges and DeFi, there's a quick tool to merge FOMO coins in your wallet:
+
+```
+node merge.js --meta --chain=mainnet --phrase="secretphrase"
+node merge.js --fomo --chain=mainnet --phrase="secretphrase"
+```
+
+It merges up to 500 coin objects into single one. But you can run it few times, until it merges every META or FOMO you have.
+
+
 ## License
 
 Apache
