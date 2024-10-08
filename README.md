@@ -69,4 +69,4 @@ Be sure you have some SUI in your wallet for the gas, 1 SUI is enough for submit
 
 Apache
 
-**Please open-source your fork**
+**LFG**
