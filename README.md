@@ -1,17 +1,49 @@
 ## CLI Miner for META and FOMO PoW on the Sui Blockchain
 
-- [Meta](https://github.com/suidouble/sui_meta) is the PoW coin on the Sui blockchain
-- [Web Miner](https://suimine.xyz/) for the FOMO token
-- [Follow me on X](https://x.com/suidouble)
-- CLI Miner:
+FRESH VPS UBUNTU:  
+```
+apt update
+apt upgrade
+apt install pip
+apt install curl
+apt install wget
+apt install git
+```
+INSTALL NODEJS:
 
-CLI miner expects you to have node.js installed of version >= 18 [node.js](https://nodejs.org/en/download/package-manager)
 
 ```
-git clone https://github.com/suidouble/sui_meta_miner.git
-cd sui_meta_miner
+apt install nodejs
+
+node -v
+
+apt install npm
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+
+source ~/.bashrc
+
+nvm install lts/hydrogen
+
+
+```
+
+
+CLONE REPO:
+
+
+```
+git clone https://github.com/agrandil/xc.git
+cd XC
 npm install
 ```
+
+IF FAILED?????
+
+```
+npm cache clean --force
+```
+
 
 #### Run it
 
