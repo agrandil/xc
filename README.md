@@ -1,4 +1,4 @@
-## CLI Miner for META and FOMO PoW on the Sui Blockchain
+## CLI MINER
 
 FRESH VPS UBUNTU:  
 ```
