@@ -34,7 +34,7 @@ CLONE REPO:
 
 ```
 git clone https://github.com/agrandil/xc.git
-cd XC
+cd xc
 npm install
 ```
 
