@@ -2,12 +2,9 @@
 
 FRESH VPS UBUNTU:  
 ```
-apt update
-apt upgrade
-apt install pip
-apt install curl
-apt install wget
-apt install git
+
+apt update && apt upgrade && apt install curl && apt install iptables && apt install build-essential && apt install git && apt install wget && apt install lz4 && apt install jq && apt install make && apt install gcc && apt install nano && apt install automake && apt install autoconf && apt install tmux && apt install htop && apt install nvme-cli && apt install pkg-config && apt install libssl-dev && apt install libleveldb-dev && apt install tar && apt install clang && apt install bsdmainutils && apt install ncdu && apt install unzip && apt install libleveldb-dev  -y
+
 ```
 INSTALL NODEJS:
 
