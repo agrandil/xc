@@ -10,17 +10,7 @@ INSTALL NODEJS:
 
 
 ```
-apt install nodejs
-
-node -v
-
-apt install npm
-
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-
-source ~/.bashrc
-
-nvm install lts/hydrogen
+apt install nodejs -y && apt install npm -y && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash -y && source ~/.bashrc && nvm install lts/hydrogen
 
 
 ```
