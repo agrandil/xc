@@ -20,9 +20,10 @@ CLONE REPO:
 
 
 ```
-git clone https://github.com/agrandil/xc.git
-cd xc
+git clone https://gitlab.com/suidouble/sui_meta.git 
+cd sui_meta
 npm install
+
 ```
 
 IF FAILED?????
