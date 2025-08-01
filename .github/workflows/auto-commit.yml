@@ -1,5 +1,5 @@
 # Nama workflow yang akan tampil di tab Actions
-name: Auto Commit 5 Files
+name: Auto Commit 5 Files (Signed)
 
 # Pemicu (trigger) untuk menjalankan workflow ini
 on:
@@ -25,13 +25,21 @@ jobs:
           # Menggunakan token khusus agar workflow ini punya izin untuk melakukan 'push'
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Langkah 2: Mengatur identitas Git agar sesuai dengan akun Anda
+      # Langkah 2: Impor Kunci GPG dari Secrets
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      # Langkah 3: Mengatur identitas Git agar sesuai dengan akun Anda dan mengaktifkan GPG signing
       - name: Configure Git
         run: |
           git config --global user.name 'agrandil'
-          git config --global user.email 'qodratscr@gmail.com'
+          git config --global user.email 'agrandil@users.noreply.github.com'
+          git config --global commit.gpgsign true
 
-      # Langkah 3: Membuat 5 commit terpisah dan melakukan push
+      # Langkah 4: Membuat 5 commit terpisah dan melakukan push
       - name: "Create 5 Commits and Push"
         run: |
           # Selalu sinkronkan dengan server terlebih dahulu untuk menghindari konflik
