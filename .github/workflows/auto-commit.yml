@@ -1,0 +1,51 @@
+# Nama workflow yang akan tampil di tab Actions
+name: Auto Commit Log File with Calculation
+
+# Pemicu (trigger) untuk menjalankan workflow ini
+on:
+  schedule:
+    # Berjalan setiap 5 menit menggunakan syntax cron
+    - cron: '*/5 * * * *'
+  
+  # Baris ini memungkinkan Anda menjalankan workflow secara manual dari tab Actions
+  # Sangat berguna untuk melakukan tes tanpa harus menunggu jadwal
+  workflow_dispatch:
+
+# Daftar pekerjaan (jobs) yang akan dijalankan
+jobs:
+  auto_commit_job:
+    # Menentukan bahwa job ini berjalan di mesin virtual Ubuntu versi terbaru
+    runs-on: ubuntu-latest
+
+    # Langkah-langkah yang akan dieksekusi secara berurutan
+    steps:
+      # Langkah 1: Melakukan "checkout" atau mengunduh kode dari repositori Anda
+      # ke dalam mesin virtual agar bisa diolah.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Menggunakan token khusus agar workflow ini punya izin untuk melakukan 'push'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Langkah 2: Melakukan perhitungan dan menambahkannya ke file log.txt
+      - name: Calculate and Modify log.txt
+        run: |
+          HASIL=$((100 / 5 * 1000))
+          echo "Perhitungan otomatis pada $(date): 100 / 5 * 1000 = $HASIL" >> log.txt
+
+      # Langkah 3: Mengatur identitas Git untuk commit yang akan dibuat.
+      # Ini penting agar Git tahu "siapa" yang melakukan commit.
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      # Langkah 4: Melakukan commit dan push perubahan ke repositori Anda
+      - name: Commit and Push changes
+        run: |
+          git add log.txt
+          # Perintah ini untuk memeriksa apakah ada perubahan sebelum commit,
+          # lalu membuat commit dengan pesan yang spesifik.
+          # [ci skip] ditambahkan untuk mencegah workflow berjalan berulang-ulang tanpa henti.
+          git diff-index --quiet HEAD || git commit -m "docs: Perbarui log.txt dengan hasil perhitungan [ci skip]"
+          git push
