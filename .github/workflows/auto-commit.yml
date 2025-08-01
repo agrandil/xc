@@ -27,7 +27,6 @@ jobs:
 
       # Langkah 2: Impor Kunci GPG dari Secrets
       - name: Import GPG key
-        # Memberi ID pada langkah ini agar outputnya bisa digunakan di langkah lain
         id: import_gpg 
         uses: crazy-max/ghaction-import-gpg@v6
         with:
@@ -35,54 +34,58 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       # Langkah 3: Mengatur identitas Git dan menunjuk kunci GPG secara eksplisit
-      - name: Configure Git
+      - name: Configure Git and Sync
         run: |
           git config --global user.name 'agrandil'
           git config --global user.email 'qodratscr@gmail.com'
           git config --global user.signingkey ${{ steps.import_gpg.outputs.keyid }}
           git config --global commit.gpgsign true
+          git pull # Selalu sinkronkan dengan server sebelum memulai
 
-      # Langkah 4: Membuat 5 commit terpisah dan melakukan push
-      - name: "Create 5 Commits and Push"
+      # Langkah 4: Membuat commit untuk negara.txt
+      - name: Create commit for negara.txt
         run: |
-          # Selalu sinkronkan dengan server terlebih dahulu untuk menghindari konflik
-          git pull
-
-          # --- Menyiapkan data acak ---
           NEGARA_LIST=("Indonesia" "Malaysia" "Jepang" "Jerman" "Brazil" "Mesir" "Australia" "Kanada")
-          BUAH_LIST=("Apel" "Mangga" "Jeruk" "Pisang" "Anggur" "Durian" "Rambutan")
-          IKAN_LIST=("Tuna" "Salmon" "Lele" "Gurame" "Patin" "Tongkol" "Kakap")
-          HARI_LIST=("Senin" "Selasa" "Rabu" "Kamis" "Jumat" "Sabtu" "Minggu")
-
-          # --- Commit 1: negara.txt ---
           NEGARA_ACAK=${NEGARA_LIST[$RANDOM % ${#NEGARA_LIST[@]}]}
           echo "Negara acak yang terpilih: $NEGARA_ACAK" > negara.txt
           git add negara.txt
           git commit -m "feat: Perbarui negara.txt dengan negara acak ($NEGARA_ACAK)"
 
-          # --- Commit 2: buah.txt ---
+      # Langkah 5: Membuat commit untuk buah.txt
+      - name: Create commit for buah.txt
+        run: |
+          BUAH_LIST=("Apel" "Mangga" "Jeruk" "Pisang" "Anggur" "Durian" "Rambutan")
           BUAH_ACAK=${BUAH_LIST[$RANDOM % ${#BUAH_LIST[@]}]}
           echo "Buah acak yang terpilih: $BUAH_ACAK" > buah.txt
           git add buah.txt
           git commit -m "feat: Perbarui buah.txt dengan buah acak ($BUAH_ACAK)"
 
-          # --- Commit 3: ikan.txt ---
+      # Langkah 6: Membuat commit untuk ikan.txt
+      - name: Create commit for ikan.txt
+        run: |
+          IKAN_LIST=("Tuna" "Salmon" "Lele" "Gurame" "Patin" "Tongkol" "Kakap")
           IKAN_ACAK=${IKAN_LIST[$RANDOM % ${#IKAN_LIST[@]}]}
           echo "Ikan acak yang terpilih: $IKAN_ACAK" > ikan.txt
           git add ikan.txt
           git commit -m "feat: Perbarui ikan.txt dengan ikan acak ($IKAN_ACAK)"
 
-          # --- Commit 4: hari.txt ---
+      # Langkah 7: Membuat commit untuk hari.txt
+      - name: Create commit for hari.txt
+        run: |
+          HARI_LIST=("Senin" "Selasa" "Rabu" "Kamis" "Jumat" "Sabtu" "Minggu")
           HARI_ACAK=${HARI_LIST[$RANDOM % ${#HARI_LIST[@]}]}
           echo "Hari acak yang terpilih: $HARI_ACAK" > hari.txt
           git add hari.txt
           git commit -m "feat: Perbarui hari.txt dengan hari acak ($HARI_ACAK)"
 
-          # --- Commit 5: log.txt ---
+      # Langkah 8: Membuat commit untuk log.txt
+      - name: Create commit for log.txt
+        run: |
           HASIL=$((100 / 5 * 1000))
           echo "Perhitungan otomatis pada $(date): 100 / 5 * 1000 = $HASIL" >> log.txt
           git add log.txt
           git commit -m "docs: Perbarui log.txt dengan hasil perhitungan [ci skip]"
 
-          # --- Push semua 5 commit sekaligus ---
-          git push
+      # Langkah 9: Push semua perubahan ke GitHub
+      - name: Push all changes
+        run: git push
