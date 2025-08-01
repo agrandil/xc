@@ -34,12 +34,11 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      # Langkah 3: Mengatur identitas Git dan MENUNJUK KUNCI GPG SECARA EKSPLISIT
+      # Langkah 3: Mengatur identitas Git dan menunjuk kunci GPG secara eksplisit
       - name: Configure Git
         run: |
           git config --global user.name 'agrandil'
           git config --global user.email 'qodratscr@gmail.com'
-          # **PERBAIKAN UTAMA:** Secara eksplisit memberitahu Git untuk menggunakan ID kunci yang baru saja diimpor
           git config --global user.signingkey ${{ steps.import_gpg.outputs.keyid }}
           git config --global commit.gpgsign true
 
