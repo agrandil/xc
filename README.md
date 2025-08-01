@@ -1,4 +1,4 @@
-## CLI MINER
+## CLI MINER 2
 
 FRESH VPS UBUNTU:  
 ```
