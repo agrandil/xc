@@ -46,6 +46,8 @@ jobs:
           git add log.txt
           # Perintah ini untuk memeriksa apakah ada perubahan sebelum commit,
           # lalu membuat commit dengan pesan yang spesifik.
-          # [ci skip] ditambahkan untuk mencegah workflow berjalan berulang-ulang tanpa henti.
           git diff-index --quiet HEAD || git commit -m "docs: Perbarui log.txt dengan hasil perhitungan [ci skip]"
+          # **PERBAIKAN:** Tarik perubahan terbaru dari server sebelum push
+          git pull --rebase
+          # Dorong perubahan ke repositori
           git push
