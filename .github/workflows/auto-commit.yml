@@ -36,6 +36,7 @@ jobs:
       - name: Configure Git
         run: |
           git config --global user.name 'agrandil'
+          # **PERBAIKAN:** Menggunakan email yang sama dengan yang ada di kunci GPG
           git config --global user.email 'qodratscr@gmail.com'
           git config --global commit.gpgsign true
 
