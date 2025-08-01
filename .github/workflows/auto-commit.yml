@@ -26,11 +26,11 @@ jobs:
           # Menggunakan token khusus agar workflow ini punya izin untuk melakukan 'push'
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Langkah 2: Mengatur identitas Git untuk commit yang akan dibuat.
+      # Langkah 2: Mengatur identitas Git agar sesuai dengan akun Anda
       - name: Configure Git
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name 'agrandil'
+          git config --global user.email 'qodratscr@gmail.com'
 
       # Langkah 3: Lakukan operasi dengan mekanisme coba lagi (retry) untuk menghindari konflik
       - name: "Pull, Modify, Commit, and Push with Retry"
