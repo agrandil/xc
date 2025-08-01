@@ -1,5 +1,5 @@
 # Nama workflow yang akan tampil di tab Actions
-name: Auto Commit Log File with Calculation
+name: Auto Commit 5 Files
 
 # Pemicu (trigger) untuk menjalankan workflow ini
 on:
@@ -8,7 +8,6 @@ on:
     - cron: '*/5 * * * *'
   
   # Baris ini memungkinkan Anda menjalankan workflow secara manual dari tab Actions
-  # Sangat berguna untuk melakukan tes tanpa harus menunggu jadwal
   workflow_dispatch:
 
 # Daftar pekerjaan (jobs) yang akan dijalankan
@@ -32,33 +31,47 @@ jobs:
           git config --global user.name 'agrandil'
           git config --global user.email 'qodratscr@gmail.com'
 
-      # Langkah 3: Lakukan operasi dengan mekanisme coba lagi (retry) untuk menghindari konflik
-      - name: "Pull, Modify, Commit, and Push with Retry"
+      # Langkah 3: Membuat 5 commit terpisah dan melakukan push
+      - name: "Create 5 Commits and Push"
         run: |
-          # Mencoba proses hingga 3 kali
-          for i in 1 2 3
-          do
-            # **PERBAIKAN UTAMA:** Selalu mulai dengan menyinkronkan DULU
-            git pull
-            
-            # SEKARANG baru buat perubahan pada file
-            HASIL=$((100 / 5 * 1000))
-            echo "Perhitungan otomatis pada $(date): 100 / 5 * 1000 = $HASIL" >> log.txt
+          # Selalu sinkronkan dengan server terlebih dahulu untuk menghindari konflik
+          git pull
 
-            # Commit dan coba push
-            git add log.txt
-            git commit -m "docs: Perbarui log.txt dengan hasil perhitungan [ci skip]"
-            
-            # Jika push berhasil, keluar dari skrip dengan status sukses
-            git push && exit 0
-            
-            # Jika push gagal, berarti ada race condition.
-            # Ulangi proses dari awal setelah reset dan jeda singkat.
-            echo "Push gagal. Mencoba lagi setelah reset..."
-            git reset --hard HEAD~1
-            sleep 5
-          done
-          
-          # Jika semua percobaan gagal, keluar dengan status error
-          echo "Gagal melakukan push setelah beberapa kali percobaan."
-          exit 1
+          # --- Menyiapkan data acak ---
+          NEGARA_LIST=("Indonesia" "Malaysia" "Jepang" "Jerman" "Brazil" "Mesir" "Australia" "Kanada")
+          BUAH_LIST=("Apel" "Mangga" "Jeruk" "Pisang" "Anggur" "Durian" "Rambutan")
+          IKAN_LIST=("Tuna" "Salmon" "Lele" "Gurame" "Patin" "Tongkol" "Kakap")
+          HARI_LIST=("Senin" "Selasa" "Rabu" "Kamis" "Jumat" "Sabtu" "Minggu")
+
+          # --- Commit 1: negara.txt ---
+          NEGARA_ACAK=${NEGARA_LIST[$RANDOM % ${#NEGARA_LIST[@]}]}
+          echo "Negara acak yang terpilih: $NEGARA_ACAK" > negara.txt
+          git add negara.txt
+          git commit -m "feat: Perbarui negara.txt dengan negara acak ($NEGARA_ACAK)"
+
+          # --- Commit 2: buah.txt ---
+          BUAH_ACAK=${BUAH_LIST[$RANDOM % ${#BUAH_LIST[@]}]}
+          echo "Buah acak yang terpilih: $BUAH_ACAK" > buah.txt
+          git add buah.txt
+          git commit -m "feat: Perbarui buah.txt dengan buah acak ($BUAH_ACAK)"
+
+          # --- Commit 3: ikan.txt ---
+          IKAN_ACAK=${IKAN_LIST[$RANDOM % ${#IKAN_LIST[@]}]}
+          echo "Ikan acak yang terpilih: $IKAN_ACAK" > ikan.txt
+          git add ikan.txt
+          git commit -m "feat: Perbarui ikan.txt dengan ikan acak ($IKAN_ACAK)"
+
+          # --- Commit 4: hari.txt ---
+          HARI_ACAK=${HARI_LIST[$RANDOM % ${#HARI_LIST[@]}]}
+          echo "Hari acak yang terpilih: $HARI_ACAK" > hari.txt
+          git add hari.txt
+          git commit -m "feat: Perbarui hari.txt dengan hari acak ($HARI_ACAK)"
+
+          # --- Commit 5: log.txt ---
+          HASIL=$((100 / 5 * 1000))
+          echo "Perhitungan otomatis pada $(date): 100 / 5 * 1000 = $HASIL" >> log.txt
+          git add log.txt
+          git commit -m "docs: Perbarui log.txt dengan hasil perhitungan [ci skip]"
+
+          # --- Push semua 5 commit sekaligus ---
+          git push
