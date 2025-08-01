@@ -49,7 +49,10 @@ jobs:
           NEGARA_ACAK=${NEGARA_LIST[$RANDOM % ${#NEGARA_LIST[@]}]}
           echo "Negara acak yang terpilih: $NEGARA_ACAK" > negara.txt
           git add negara.txt
-          git commit -m "feat: Perbarui negara.txt dengan negara acak ($NEGARA_ACAK)"
+          # **PERBAIKAN:** Hanya commit jika ada perubahan
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "feat: Perbarui negara.txt dengan negara acak ($NEGARA_ACAK)"
+          fi
 
       # Langkah 5: Membuat commit untuk buah.txt
       - name: Create commit for buah.txt
@@ -58,7 +61,10 @@ jobs:
           BUAH_ACAK=${BUAH_LIST[$RANDOM % ${#BUAH_LIST[@]}]}
           echo "Buah acak yang terpilih: $BUAH_ACAK" > buah.txt
           git add buah.txt
-          git commit -m "feat: Perbarui buah.txt dengan buah acak ($BUAH_ACAK)"
+          # **PERBAIKAN:** Hanya commit jika ada perubahan
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "feat: Perbarui buah.txt dengan buah acak ($BUAH_ACAK)"
+          fi
 
       # Langkah 6: Membuat commit untuk ikan.txt
       - name: Create commit for ikan.txt
@@ -67,7 +73,10 @@ jobs:
           IKAN_ACAK=${IKAN_LIST[$RANDOM % ${#IKAN_LIST[@]}]}
           echo "Ikan acak yang terpilih: $IKAN_ACAK" > ikan.txt
           git add ikan.txt
-          git commit -m "feat: Perbarui ikan.txt dengan ikan acak ($IKAN_ACAK)"
+          # **PERBAIKAN:** Hanya commit jika ada perubahan
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "feat: Perbarui ikan.txt dengan ikan acak ($IKAN_ACAK)"
+          fi
 
       # Langkah 7: Membuat commit untuk hari.txt
       - name: Create commit for hari.txt
@@ -76,7 +85,10 @@ jobs:
           HARI_ACAK=${HARI_LIST[$RANDOM % ${#HARI_LIST[@]}]}
           echo "Hari acak yang terpilih: $HARI_ACAK" > hari.txt
           git add hari.txt
-          git commit -m "feat: Perbarui hari.txt dengan hari acak ($HARI_ACAK)"
+          # **PERBAIKAN:** Hanya commit jika ada perubahan
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "feat: Perbarui hari.txt dengan hari acak ($HARI_ACAK)"
+          fi
 
       # Langkah 8: Membuat commit untuk log.txt
       - name: Create commit for log.txt
@@ -84,7 +96,10 @@ jobs:
           HASIL=$((100 / 5 * 1000))
           echo "Perhitungan otomatis pada $(date): 100 / 5 * 1000 = $HASIL" >> log.txt
           git add log.txt
-          git commit -m "docs: Perbarui log.txt dengan hasil perhitungan [ci skip]"
+          # **PERBAIKAN:** Hanya commit jika ada perubahan
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "docs: Perbarui log.txt dengan hasil perhitungan [ci skip]"
+          fi
 
       # Langkah 9: Push semua perubahan ke GitHub
       - name: Push all changes
