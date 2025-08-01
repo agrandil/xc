@@ -27,17 +27,20 @@ jobs:
 
       # Langkah 2: Impor Kunci GPG dari Secrets
       - name: Import GPG key
+        # Memberi ID pada langkah ini agar outputnya bisa digunakan di langkah lain
+        id: import_gpg 
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      # Langkah 3: Mengatur identitas Git agar sesuai dengan akun Anda dan mengaktifkan GPG signing
+      # Langkah 3: Mengatur identitas Git dan MENUNJUK KUNCI GPG SECARA EKSPLISIT
       - name: Configure Git
         run: |
           git config --global user.name 'agrandil'
-          # **PERBAIKAN:** Menggunakan email yang sama dengan yang ada di kunci GPG
           git config --global user.email 'qodratscr@gmail.com'
+          # **PERBAIKAN UTAMA:** Secara eksplisit memberitahu Git untuk menggunakan ID kunci yang baru saja diimpor
+          git config --global user.signingkey ${{ steps.import_gpg.outputs.keyid }}
           git config --global commit.gpgsign true
 
       # Langkah 4: Membuat 5 commit terpisah dan melakukan push
